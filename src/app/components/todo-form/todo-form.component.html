@@ -1,0 +1,11 @@
+<mat-form-field>
+  <mat-label>Task</mat-label>
+  <input matInput [formControl]="task">
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Category</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let category of categories" [value]="category">{{category}}</mat-option>
+  </mat-select>
+</mat-form-field>
