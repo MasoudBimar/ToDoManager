@@ -1,0 +1,3 @@
+<mat-list-item [class.complete]="task.done">
+  <mat-checkbox [checked]="task.done" (change)="this.completeChange.emit($event)">{{ task.title }}</mat-checkbox>
+</mat-list-item>

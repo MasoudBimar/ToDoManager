@@ -3,18 +3,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCheckboxModule, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 
-import { ToDo } from '../../state/todo/todo.model'
+import { Task } from '../../state/task/task.model'
 
 @Component({
-  selector: 'app-todo',
+  selector: 'app-task',
   standalone: true,
   imports:[MatCheckboxModule, MatListModule, CommonModule],
-  templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.scss']
+  templateUrl: './task.component.html',
+  styleUrls: ['./task.component.scss']
 })
-export class TodoComponent {
+export class TaskComponent {
 
-  @Input() toDo!: ToDo;
+  @Input() task!: Task;
 
   @Output() completeChange = new EventEmitter<MatCheckboxChange>();
 

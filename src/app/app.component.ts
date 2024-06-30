@@ -1,66 +1,86 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { RouterOutlet } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { State } from './state/state.interface';
-import { completeToDos, incompleteToDos } from './state/todo';
-import { AddToDo, CompleteToDo, IncompleteToDo } from './state/todo/todo.actions';
-import { ToDo, generateToDos } from './state/todo/todo.model';
-import { MatCardModule } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
-import { TodoListComponent } from './components/todo-list/todo-list.component';
-import { TodoFormComponent } from './components/todo-form/todo-form.component';
-import { MatButtonModule } from '@angular/material/button';
+import { ListFormComponent } from './components/list-form/list-form.component';
+import { TaskFormComponent } from './components/task-form/task-form.component';
+import { TaskListComponent } from './components/task-list/task-list.component';
+import { AppState } from './state/state.interface';
+import { allLists, completeTasks, incompleteTasks, taskList } from './state/task';
+import { AddList } from './state/task/list.actions';
+import { AddTask, CompleteTask, IncompleteTask } from './state/task/task.actions';
+import { generateLists, generateTasks, List, Task } from './state/task/task.model';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatCardModule, TodoListComponent, TodoFormComponent, MatButtonModule],
+  imports: [CommonModule, RouterOutlet, MatCardModule, TaskListComponent, TaskFormComponent, MatButtonModule, ListFormComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'TodoManager';
-  completeToDos?: Observable<ToDo[]>;
+  title = 'Task Manager';
+  completeTasks!: Observable<Array<Task>>;
 
-  incompleteToDos!: Observable<Array<ToDo>>;
+  incompleteTasks!: Observable<Array<Task>>;
 
-  private _toDo!: Partial<ToDo>;
+  lists!: Observable<Array<List>>;
 
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.initialize();
   }
 
   initialize() {
-    generateToDos().forEach(todo => this.store.dispatch(new AddToDo(todo)));
-    this.completeToDos = this.store.pipe(select(completeToDos));
-    this.incompleteToDos = this.store.pipe(select(incompleteToDos));
+    generateTasks().forEach(task => this.store.dispatch(new AddTask(task)));
+    generateLists().forEach(list => this.store.dispatch(new AddList(list)));
+    this.completeTasks = this.store.pipe(select(completeTasks));
+    this.incompleteTasks = this.store.pipe(select(incompleteTasks));
+    this.lists = this.store.pipe(select(allLists));
+
   }
 
-  addToDo() {
-    if (this._toDo.task) {
+  addTask(task: Partial<Task>) {
+    if (task.title && task.description) {
       this.store.dispatch(
-        new AddToDo({
+        new AddTask({
           id: Math.random(),
-          complete: false,
-          task: this._toDo.task,
-          category: 'daily'
+          done: false,
+          title: task.title,
+          description: task.description,
+          list: 1,
+          date: new Date()
         })
       );
     }
   }
 
-  onAddToDoChange(event: Partial<ToDo>) {
-    this._toDo = event;
+  addList(list: Partial<List>) {
+    if (list.title) {
+      this.store.dispatch(
+        new AddList({
+          id: Math.random(),
+          title: list.title,
+          date: new Date(),
+          isMain: false
+        })
+      );
+    }
   }
 
-  onCompleteToDo(toDo: ToDo) {
-    this.store.dispatch(new CompleteToDo(toDo));
+  onCompleteTask(task: Task) {
+    this.store.dispatch(new CompleteTask(task));
   }
 
-  onIncompleteToDo(toDo: ToDo) {
-    this.store.dispatch(new IncompleteToDo(toDo));
+  onIncompleteTask(task: Task) {
+    this.store.dispatch(new IncompleteTask(task));
+  }
+
+  getTaskList(listId: number){
+    return this.store.pipe(select(taskList(listId)));
   }
 }

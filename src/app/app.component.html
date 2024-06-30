@@ -3,13 +3,13 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          <h4>Daily ToDo List</h4>
+          <h4>Daily Task List</h4>
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <ng-container *ngIf="incompleteToDos | async; let toDos">
-          <ng-container *ngIf="toDos.length > 0; else allDone">
-            <app-todo-list [toDos]="toDos" (toDoChange)="onCompleteToDo($event)"></app-todo-list>
+        <ng-container *ngIf="incompleteTasks | async; let tasks">
+          <ng-container *ngIf="tasks.length > 0; else allDone">
+            <app-task-list [tasks]="tasks" (taskChange)="onCompleteTask($event)"></app-task-list>
           </ng-container>
           <ng-template #allDone>
             <h4>All Done!! 🏖</h4>
@@ -23,12 +23,27 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          <h4>Add To Do</h4>
+          <h4>Lists </h4>
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <app-todo-form (toDoChange)="onAddToDoChange($event)"></app-todo-form>
-        <button mat-raised-button color="primary" (click)="addToDo()">Add To Do</button>
+        <ng-container *ngIf="lists | async;let lists">
+          <app-task-list *ngFor="let list of lists" [tasks]="getTaskList(list.id) | async" ></app-task-list>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="card">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h4>Add Task</h4>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-task-form (taskCreated)="addTask($event)"></app-task-form>
+        <!-- <button mat-raised-button color="primary" (click)="addTask()">Add Task</button> -->
 
       </mat-card-content>
     </mat-card>
@@ -38,11 +53,26 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          <h4>Completed 🎉</h4>
+          <h4>Add List</h4>
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <app-todo-list [toDos]="completeToDos | async" (toDoChange)="onIncompleteToDo($event)"></app-todo-list>
+        <app-list-form (listCreated)="addList($event)"></app-list-form>
+        <!-- <button mat-raised-button color="primary" (click)="addTask()">Add Task</button> -->
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="card">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h4>Done 🎉</h4>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-task-list [tasks]="completeTasks | async" (taskChange)="onIncompleteTask($event)"></app-task-list>
       </mat-card-content>
     </mat-card>
   </div>

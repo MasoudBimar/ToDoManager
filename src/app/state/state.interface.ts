@@ -1,5 +1,11 @@
-import { ToDoState } from './todo/todo.reducer';
+import { ListActions } from "./task/list.actions";
+import { ListState } from "./task/list.reducer";
+import { TaskActions } from "./task/task.actions";
+import { TaskState } from "./task/task.reducer";
 
-export interface State {
-  todo: ToDoState
+export interface AppState {
+  task: TaskState,
+  // list: ListState
 }
+
+// export type AppActions = TaskActions | ListActions;

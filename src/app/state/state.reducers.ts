@@ -1,12 +1,13 @@
+import { ActionReducerMap, MetaReducer, State } from '@ngrx/store';
+
+import { AppState } from './state.interface';
+import { TaskActions } from './task/task.actions';
+import { taskReducer } from './task/task.reducer';
 import { isDevMode } from '@angular/core';
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
-import { State } from './state.interface';
-import { ToDoActions } from './todo/todo.actions';
-import { toDoReducer } from './todo/todo.reducer';
-
-export const appReducers: ActionReducerMap<State, ToDoActions> = {
-  todo: toDoReducer
+export const appReducers: ActionReducerMap<AppState, TaskActions> = {
+  task: taskReducer,
+  // list: listReducer
 };
 
-export const metaReducers: MetaReducer<State,ToDoActions>[] = isDevMode() ? [] : [];
+export const metaReducers: MetaReducer<AppState,TaskActions>[] = isDevMode() ? [] : [];
