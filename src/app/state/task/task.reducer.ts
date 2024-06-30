@@ -2,7 +2,6 @@ import { EntityAdapter, EntityState, createEntityAdapter } from '@ngrx/entity';
 
 import { TaskActionTypes, TaskActions } from './task.actions';
 import { Task } from './task.model';
-import { ListActionTypes, ListActions } from './list.actions';
 
 export interface TaskState extends EntityState<Task> {}
 
