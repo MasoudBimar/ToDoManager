@@ -1,3 +1,6 @@
-<mat-list-item [class.complete]="task.done">
-  <mat-checkbox [checked]="task.done" (change)="this.completeChange.emit($event)">{{ task.title }}</mat-checkbox>
-</mat-list-item>
+<mat-list role="list">
+  <!-- <app-task  [task]="task"></app-task> -->
+  <mat-list-item [class.complete]="task.done" *ngFor="let task of tasks">
+    <mat-checkbox [checked]="task.done" (change)="this.completeChange.emit($event)">{{ task.title }}</mat-checkbox>
+  </mat-list-item>
+</mat-list>

@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCheckboxModule, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 
-import { Task } from '../../state/task/task.model'
+import { Task } from '../../state/state.model'
 
 @Component({
   selector: 'app-task',
@@ -13,8 +13,8 @@ import { Task } from '../../state/task/task.model'
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent {
-
-  @Input() task!: Task;
+  @Output() taskChange = new EventEmitter<Task>();
+  @Input() tasks: Task[] | null = null;
 
   @Output() completeChange = new EventEmitter<MatCheckboxChange>();
 

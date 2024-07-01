@@ -1,8 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { TaskState, ListState, taskAdapter, listAdapter } from '../state.interface';
 
-import { Task } from './task.model';
-import { TaskState, taskAdapter } from './task.reducer';
-import { ListState, listAdapter } from './list.reducer';
+import { Task } from '../state.model';
 
 export const selectTaskState = createFeatureSelector<TaskState>('task');
 export const selectListState = createFeatureSelector<ListState>('list');

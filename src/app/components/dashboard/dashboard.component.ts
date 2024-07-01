@@ -3,21 +3,22 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { routes } from './app.routes';
-import { ListFormComponent } from './components/list-form/list-form.component';
-import { TaskFormComponent } from './components/task-form/task-form.component';
-import { TasksComponent } from './components/tasks/tasks.component';
-import { TaskComponent } from './components/task/task.component';
-import { AppState } from './state/state.interface';
-import { allLists, completeTasks, incompleteTasks, taskList } from './state/task';
-import { AddList } from './state/list/list.actions';
-import { AddTask, CompleteTask, IncompleteTask } from './state/task/task.actions';
-import { generateLists, generateTasks, List, Task } from './state/state.model';
+import { RouterOutlet, RouterModule } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { filter, Observable } from 'rxjs';
+import { AppState } from '../../state/state.interface';
+import { completeTasks, incompleteTasks, allLists, taskList } from '../../state/task';
+import { AddList } from '../../state/list/list.actions';
+import { AddTask, CompleteTask, IncompleteTask } from '../../state/task/task.actions';
+import { List, generateTasks, generateLists, Task } from '../../state/state.model';
+import { ListFormComponent } from '../list-form/list-form.component';
+import { TaskFormComponent } from '../task-form/task-form.component';
+import { TasksComponent } from '../tasks/tasks.component';
+import { TaskComponent } from '../task/task.component';
+import { MatDialog, MatDialogContent, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
+
 @Component({
-  selector: 'app-root',
+  selector: 'app-dashboard',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,13 +30,15 @@ import { generateLists, generateTasks, List, Task } from './state/state.model';
     ListFormComponent,
     MatToolbarModule,
     RouterModule,
-    TaskComponent
+    TaskComponent,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogModule,
   ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss'
 })
-export class AppComponent {
-  title = 'Task Manager';
+export class DashboardComponent {
   completeTasks!: Observable<Array<Task>>;
 
   incompleteTasks!: Observable<Array<Task>>;
@@ -94,6 +97,9 @@ export class AppComponent {
   }
 
   getTaskList(listId: number) {
-    return this.store.pipe(select(taskList(listId)));
+    // return  this.incompleteTasks.pipe(filter((tasks: Task[]) => {
+    //   return tasks.filter(task => task.list === listId);
+    // }));
+    // this.store.pipe(select(taskList(listId)));
   }
 }

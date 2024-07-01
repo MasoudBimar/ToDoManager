@@ -1,15 +1,8 @@
-import { EntityAdapter, EntityState, createEntityAdapter } from '@ngrx/entity';
 
-import { ListActionTypes, ListActions } from './list.actions';
-import { List } from './task.model';
+import { initialListState, listAdapter, ListState } from '../state.interface';
+import { ListActions, ListActionTypes } from './list.actions';
 
-export interface ListState extends EntityState<List> {}
-
-export const listAdapter: EntityAdapter<List> = createEntityAdapter<List>();
-
-export const initialSiteState: ListState = listAdapter.getInitialState();
-
-export function listReducer(state: ListState = initialSiteState, action: ListActions): ListState {
+export function listReducer(state: ListState = initialListState, action: ListActions): ListState {
   switch (action.type) {
     case ListActionTypes.AddList:
       return listAdapter.addOne(action.payload, state);

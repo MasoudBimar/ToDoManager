@@ -1,21 +1,24 @@
-<form [formGroup]="taskForm" (ngSubmit)="createTask()">
+<h4 mat-dialog-title>New Task</h4>
+<mat-dialog-content>
+  <form [formGroup]="taskForm" (ngSubmit)="createTask()">
 
-  <mat-form-field>
-    <mat-label>Title</mat-label>
-    <input matInput formControlName="title">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Description</mat-label>
-    <input matInput formControlName="description">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Category</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let category of categories" [value]="category">{{category}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>List</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let listItem of lists | async" [value]="listItem">{{listItem.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" > Create Task</button>
-</form>
+    <button mat-raised-button color="primary" type="submit"> Create Task</button>
+  </form>
+</mat-dialog-content>

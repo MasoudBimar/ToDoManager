@@ -1,9 +1,12 @@
-<form [formGroup]="listForm" (ngSubmit)="createList()">
+<h4 mat-dialog-title>New Task</h4>
+<mat-dialog-content *ngIf="dialogRef">
+  <form [formGroup]="listForm" (ngSubmit)="createList()">
 
-  <mat-form-field>
-    <mat-label>Title</mat-label>
-    <input matInput formControlName="title">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" > Create List</button>
-</form>
+    <button mat-raised-button color="primary" type="submit"> Create List</button>
+  </form>
+</mat-dialog-content>

@@ -8,5 +8,11 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { appReducers, metaReducers } from './state/state.reducers';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideAnimationsAsync(), provideStore(appReducers, { metaReducers }), provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideRouter(routes), 
+    provideAnimationsAsync(), 
+    provideStore(appReducers, { metaReducers }), 
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
+  ]
 };

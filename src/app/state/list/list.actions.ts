@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { List } from './task.model';
+import { List } from '../state.model';
 
 export enum ListActionTypes {
   AddList = '[List] Add List',

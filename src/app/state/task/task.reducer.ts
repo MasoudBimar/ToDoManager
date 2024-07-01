@@ -1,15 +1,8 @@
-import { EntityAdapter, EntityState, createEntityAdapter } from '@ngrx/entity';
 
-import { TaskActionTypes, TaskActions } from './task.actions';
-import { Task } from './task.model';
+import { initialTaskState, taskAdapter, TaskState } from '../state.interface';
+import { TaskActions, TaskActionTypes } from './task.actions';
 
-export interface TaskState extends EntityState<Task> {}
-
-export const taskAdapter: EntityAdapter<Task> = createEntityAdapter<Task>();
-
-export const initialSiteState: TaskState = taskAdapter.getInitialState();
-
-export function taskReducer(state: TaskState = initialSiteState, action: TaskActions):TaskState {
+export function taskReducer(state: TaskState = initialTaskState, action: TaskActions):TaskState {
   switch (action.type) {
     case TaskActionTypes.AddTask:
       return taskAdapter.addOne(action.payload, state);

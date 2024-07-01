@@ -1,6 +1,6 @@
 import * as fromReducer from './task.reducer';
 import * as fromAction from './task.actions';
-import * as fromModel from './task.model';
+import * as fromModel from '../state.model';
 
 describe('TaskReducer', () => {
   const task: fromModel.Task = {

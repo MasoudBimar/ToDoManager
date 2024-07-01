@@ -1,0 +1,77 @@
+<div class="cards">
+  <div class="card">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h4>Daily Task List</h4>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ng-container *ngIf="incompleteTasks | async; let tasks">
+          <ng-container *ngIf="tasks.length > 0; else allDone">
+            <app-task [tasks]="tasks" (taskChange)="onCompleteTask($event)"></app-task>
+          </ng-container>
+          <ng-template #allDone>
+            <h4>All Done!! 🏖</h4>
+          </ng-template>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="card" *ngFor="let list of lists | async">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h4>{{list.title}} </h4>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <!-- <ng-container *ngIf="list">
+          <app-task  [tasks]="getTaskList(list.id) | async" ></app-task>
+        </ng-container> -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- <div class="card">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h4>Add Task</h4>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-task-form (taskCreated)="addTask($event)"></app-task-form>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="card">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h4>Add List</h4>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-list-form (listCreated)="addList($event)"></app-list-form>
+
+      </mat-card-content>
+    </mat-card>
+  </div> -->
+
+  <div class="card">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h4>Done 🎉</h4>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-task [tasks]="completeTasks | async" (taskChange)="onIncompleteTask($event)"></app-task>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

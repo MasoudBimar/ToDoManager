@@ -1,0 +1,16 @@
+.cards {
+  margin-top: 20px;
+
+  mat-card + mat-card {
+    margin-top: 20px;
+
+  }
+  .card{
+    width: 30%;
+    height: 50%;
+    display: inline-block;
+    // background-color: dimgrey;
+    padding: 5px;
+    margin: 5px;
+  }
+}

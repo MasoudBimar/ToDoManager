@@ -1,19 +1,36 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { Observable, Subject } from 'rxjs';
 
-import { Task } from '../../state/task/task.model';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { select, Store } from '@ngrx/store';
+import { AppState } from '../../state/state.interface';
+import { allLists } from '../../state/task';
+import { AddTask } from '../../state/task/task.actions';
+import { List, Task } from '../../state/state.model';
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [MatCheckboxModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatInputModule, MatButtonModule, MatSelectModule],
+  imports: [MatCheckboxModule, MatDialogTitle,
+    MatDialogClose,
+    MatDialogContent, 
+    MatDialogTitle, 
+    MatDialogModule,
+    CommonModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+  ],
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.scss']
 })
@@ -22,14 +39,17 @@ export class TaskFormComponent implements OnDestroy, OnInit {
   @Output() taskCreated = new EventEmitter<Partial<Task>>();
 
   taskForm: FormGroup;
+  lists: Observable<List[]>;
 
   private unsubscribe = new Subject<void>();
-
-  constructor(private fb: FormBuilder) {
+  readonly dialogRef = inject(MatDialogRef<TaskFormComponent>);
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {
     this.taskForm = this.fb.group({
-      title: [ '' ,Validators.required],
+      title: ['', Validators.required],
       description: ['', Validators.required],
-    })
+    });
+
+    this.lists = this.store.pipe(select(allLists));
   }
 
   ngOnDestroy() {
@@ -48,7 +68,19 @@ export class TaskFormComponent implements OnDestroy, OnInit {
 
   createTask() {
     if (this.taskForm.valid) {
-      this.taskCreated.emit(this.taskForm.value);
+      if (this.taskForm.value.title && this.taskForm.value.description) {
+        this.store.dispatch(
+          new AddTask({
+            id: Math.random(),
+            done: false,
+            title: this.taskForm.value.title,
+            description: this.taskForm.value.description,
+            list: 1,
+            date: new Date()
+          })
+        );
+        this.dialogRef.close();
+      }
     }
   }
 
