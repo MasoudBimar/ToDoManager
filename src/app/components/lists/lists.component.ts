@@ -9,9 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { select, Store } from '@ngrx/store';
-import { AppState } from '../../state/state.interface';
-import { allLists } from '../../state/task';
-import { List } from '../../state/state.model';
+import { List } from '../../state/model';
 import { ListFormComponent } from '../list-form/list-form.component';
 import { TaskComponent } from '../task/task.component';
 import { WrapperTableComponent } from '../wrapper-table/wrapper-table.component';
@@ -19,18 +17,18 @@ import { WrapperTableComponent } from '../wrapper-table/wrapper-table.component'
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [ 
-    MatListModule, 
+  imports: [
+    MatListModule,
     TaskComponent,
-    MatCardModule, 
-    CommonModule, 
-    MatButtonModule, 
-    forwardRef(() => WrapperTableComponent), 
-    MatSortModule, 
+    MatCardModule,
+    CommonModule,
+    MatButtonModule,
+    forwardRef(() => WrapperTableComponent),
+    MatSortModule,
     MatTableModule,
     MatDialogModule,
   ],
-  
+
   templateUrl: './lists.component.html',
   styleUrls: ['./lists.component.scss']
 })
@@ -40,11 +38,11 @@ export class ListsComponent {
   dataSource: MatTableDataSource<List> = new MatTableDataSource<List>([]);
 
   @ViewChild('sort') sort!: MatSort;
-  constructor(private store: Store<AppState>) {
-    this.store.pipe(select(allLists)).subscribe((result: List[]) => {
-      console.log("🚀 ~ ListsComponent ~ this.store.pipe ~ result:", result)
-      this.dataSource.data = result;
-    });
+  constructor(private store: Store) {
+    // this.store.pipe(select(allLists)).subscribe((result: List[]) => {
+    //   console.log("🚀 ~ ListsComponent ~ this.store.pipe ~ result:", result)
+    //   this.dataSource.data = result;
+    // });
   }
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

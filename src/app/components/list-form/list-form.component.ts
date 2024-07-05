@@ -8,25 +8,24 @@ import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { List } from '../../state/state.model';
-import { AppState } from '../../state/state.interface';
+import { List } from '../../state/model';
 import { Store } from '@ngrx/store';
-import { AddList } from '../../state/list/list.actions';
+import { AddList } from '../../state/list.actions';
 
 @Component({
   selector: 'app-list-form',
   standalone: true,
   imports: [
     MatDialogClose,
-    MatDialogContent, 
-    MatDialogTitle, 
+    MatDialogContent,
+    MatDialogTitle,
     MatDialogModule,
-    CommonModule, 
-    MatFormFieldModule, 
-    FormsModule, 
-    ReactiveFormsModule, 
-    MatInputModule, 
-    MatButtonModule, 
+    CommonModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
     MatSelectModule,
 
   ],
@@ -41,7 +40,7 @@ export class ListFormComponent implements OnDestroy, OnInit {
 
   private unsubscribe = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>) {
+  constructor(private fb: FormBuilder, private store: Store) {
     this.listForm = this.fb.group({
       title: ['', Validators.required],
       // description: ['', Validators.required],

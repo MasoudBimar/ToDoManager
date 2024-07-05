@@ -1,14 +1,18 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { appReducers } from './state.reducers';
+import { listReducer } from './list.reducer';
+import { taskReducer } from './task.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { TasksEffects } from './task.effect';
 
 @NgModule({
   imports: [
     CommonModule,
-    StoreModule.forRoot(appReducers),
+    StoreModule.forRoot({ taskState: taskReducer, listState: listReducer }),
+    EffectsModule.forRoot(TasksEffects),
     StoreDevtoolsModule.instrument()
   ],
   declarations: []

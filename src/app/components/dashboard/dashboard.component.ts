@@ -6,16 +6,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { filter, Observable } from 'rxjs';
-import { AppState } from '../../state/state.interface';
-import { completeTasks, incompleteTasks, allLists, taskList } from '../../state/task';
-import { AddList } from '../../state/list/list.actions';
-import { AddTask, CompleteTask, IncompleteTask } from '../../state/task/task.actions';
-import { List, generateTasks, generateLists, Task } from '../../state/state.model';
+import { AddList } from '../../state/list.actions';
+import { List, generateTasks, generateLists, Task } from '../../state/model';
 import { ListFormComponent } from '../list-form/list-form.component';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { TasksComponent } from '../tasks/tasks.component';
 import { TaskComponent } from '../task/task.component';
 import { MatDialog, MatDialogContent, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
+import { TaskActions } from '../../state/task.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,55 +43,54 @@ export class DashboardComponent {
 
   lists!: Observable<Array<List>>;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.initialize();
   }
 
   initialize() {
-    generateTasks().forEach(task => this.store.dispatch(new AddTask(task)));
-    generateLists().forEach(list => this.store.dispatch(new AddList(list)));
-    this.completeTasks = this.store.pipe(select(completeTasks));
-    this.incompleteTasks = this.store.pipe(select(incompleteTasks));
-    this.lists = this.store.pipe(select(allLists));
+    // generateTasks().forEach(task => this.store.dispatch(new AddTask(task)));
+    // generateLists().forEach(list => this.store.dispatch(new AddList(list)));
+    // this.completeTasks = this.store.pipe(select(completeTasks));
+    // this.incompleteTasks = this.store.pipe(select(incompleteTasks));
+    // this.lists = this.store.pipe(select(allLists));
 
   }
 
   addTask(task: Partial<Task>) {
     if (task.title && task.description) {
-      this.store.dispatch(
-        new AddTask({
-          id: Math.random(),
-          done: false,
-          title: task.title,
-          description: task.description,
-          list: 1,
-          date: new Date()
-        })
+      this.store.dispatch( TaskActions.addTask({
+        _id: Math.random(),
+        done: false,
+        title: task.title,
+        description: task.description,
+        list: 1,
+        date: new Date()
+      })
       );
     }
   }
 
   addList(list: Partial<List>) {
-    if (list.title) {
-      this.store.dispatch(
-        new AddList({
-          id: Math.random(),
-          title: list.title,
-          date: new Date(),
-          isMain: false
-        })
-      );
-    }
+    // if (list.title) {
+    //   this.store.dispatch(
+    //     new AddList({
+    //       id: Math.random(),
+    //       title: list.title,
+    //       date: new Date(),
+    //       isMain: false
+    //     })
+    //   );
+    // }
   }
 
   onCompleteTask(task: Task) {
-    this.store.dispatch(new CompleteTask(task));
+    // this.store.dispatch(new CompleteTask(task));
   }
 
   onIncompleteTask(task: Task) {
-    this.store.dispatch(new IncompleteTask(task));
+    // this.store.dispatch(new IncompleteTask(task));
   }
 
   getTaskList(listId: number) {

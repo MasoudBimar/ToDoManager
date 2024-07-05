@@ -1,5 +1,5 @@
 export interface Task {
-  id: number;
+  _id?: number;
   title: string;
   description: string;
   done: boolean;
@@ -17,7 +17,7 @@ export interface List {
 export function generateTasks(): Task[] {
   return [
     {
-      id: 1,
+      _id: 1,
       title: 'Watch Ozark Season 2',
       description: 'Watch Ozark Season 2',
       date: new Date(),
@@ -25,7 +25,7 @@ export function generateTasks(): Task[] {
       list: 1
     },
     {
-      id: 2,
+      _id: 2,
       title: 'Use NgRx in my to-do app',
       description: 'Use NgRx in my to-do app',
       date: new Date(),

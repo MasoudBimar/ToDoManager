@@ -13,9 +13,17 @@
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>List</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let listItem of lists | async" [value]="listItem">{{listItem.title}}</mat-option>
+      <mat-select formControlName="list">
+        <mat-option *ngFor="let listItem of lists | async" [value]="listItem.title">{{listItem.title}}</mat-option>
       </mat-select>
     </mat-form-field>
 
