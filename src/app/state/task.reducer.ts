@@ -1,48 +1,23 @@
 
-// import { initialTaskState, taskAdapter, TaskState } from '../state.interface';
-// import { TaskActions, TaskActionTypes } from './task.actions';
-
+import { EntityState } from "@ngrx/entity";
 import { createReducer, on } from "@ngrx/store";
-import { initialTaskState } from "./state.interface";
-import { TaskAPIActions } from "./task.actions";
+import { TaskEntity } from "./model";
+import { initTasks, TaskActions, TaskAPIActions } from "./task.actions";
+import { taskAdapter } from "./tasks.selector";
 
+export interface TaskState extends EntityState<TaskEntity> {
+  selectedId?: string | number;
+  loaded: boolean;
+  error?: string | null;
+}
+
+export const initialTaskState: TaskState = taskAdapter.getInitialState({
+  // set initial required properties
+  loaded: false,
+});
 
 export const taskReducer = createReducer(
   initialTaskState,
-  on(TaskAPIActions.retrievedTaskList, (_state, { tasks }) => tasks)
+  on(initTasks, (state) => ({ ...state, loaded: false, error: null })),
+  on(TaskAPIActions.loadTaskList, (state, { tasks }) => taskAdapter.setAll(tasks, { ...state, loaded: true })),
 );
-
-// export function taskReducer(state: TaskState = initialTaskState, action: TaskActions):TaskState {
-//   switch (action.type) {
-//     case TaskActionTypes.AddTask:
-//       return taskAdapter.addOne(action.payload, state);
-
-//     case TaskActionTypes.ClearTasks:
-//       return taskAdapter.removeAll(state);
-
-//     case TaskActionTypes.CompleteTask:
-//       return taskAdapter.updateOne({
-//         id: action.payload.id,
-//         changes: {
-//           ...action.payload,
-//           done: true
-//         }
-//       }, state);
-
-//     case TaskActionTypes.IncompleteTask:
-//       return taskAdapter.updateOne({
-//         id: action.payload.id,
-//         changes: {
-//           ...action.payload,
-//           done: false
-//         }
-//       }, state);
-
-//     case TaskActionTypes.RemoveTask:
-//       return taskAdapter.removeOne(action.payload.id, state);
-
-//     default: {
-//       return state;
-//     }
-//   }
-// }

@@ -1,41 +1,21 @@
-import { Action } from '@ngrx/store';
-import { List } from './model';
+import { Action, createAction, createActionGroup, props } from '@ngrx/store';
+import { ListEntity } from './model';
 
-export enum ListActionTypes {
-  AddList = '[List] Add List',
-  // ClearCategories = '[List] Clear List',
-  // CompleteList = '[List] Complete List',
-  // IncompleteList = '[List] Incomplete List',
-  RemoveList = '[List] Remove List'
-}
+export const initList = createAction('[List Page] Init');
 
-export class AddList implements Action {
-  readonly type = ListActionTypes.AddList;
-  constructor(public payload: List) {}
-}
+export const ListActions = createActionGroup({
+  source: 'Lists',
+  events: {
+    'Add List': props<ListEntity>(),
+    'List Added': props<ListEntity>(),
+    'Remove List': props<{ id: number }>(),
+  },
+});
 
-// export class ClearLists implements Action {
-//   readonly type = ListActionTypes.ClearLists;
-// }
-
-// export class CompleteList implements Action {
-//   readonly type = ListActionTypes.CompleteList;
-//   constructor(public payload: List) {}
-// }
-
-// export class IncompleteList implements Action {
-//   readonly type = ListActionTypes.IncompleteList;
-//   constructor(public payload: List) {}
-// }
-
-export class RemoveList implements Action {
-  readonly type = ListActionTypes.RemoveList;
-  constructor(public payload: List) {}
-}
-
-export type ListActions =
-  | AddList
-  // | ClearLists
-  // | CompleteList
-  // | IncompleteList
-  | RemoveList;
+export const ListAPIActions = createActionGroup({
+  source: 'Lists API',
+  events: {
+    'Load List Success':   props<{ list: ListEntity[] }>(),
+    'Load List Failure': props<{ error: any }>(),
+  },
+});

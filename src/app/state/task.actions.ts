@@ -1,12 +1,14 @@
-import { Action, createActionGroup, props } from '@ngrx/store';
+import { createAction, createActionGroup, props } from '@ngrx/store';
 
-import { Task } from './model';
+import { TaskEntity } from './model';
+
+export const initTasks = createAction('[Task Page] Init');
 
 export const TaskActions = createActionGroup({
   source: 'Tasks',
   events: {
-    'Add Task': props<Task>(),
-    'Task Added': props<Task>(),
+    'Add Task': props<TaskEntity>(),
+    'Task Added': props<TaskEntity>(),
     'Remove Task': props<{ id: number }>(),
   },
 });
@@ -14,8 +16,8 @@ export const TaskActions = createActionGroup({
 export const TaskAPIActions = createActionGroup({
   source: 'Tasks API',
   events: {
-    'Load Task List': props<{ listId: Readonly<number> }>(),
-    'Retrieved Task List': props<{ tasks: Readonly<Task[]> }>(),
+    'Load Task List': props<{ tasks: TaskEntity[] }>(),
+    // 'Retrieved Task List': props<{ tasks: Readonly<TaskEntity[]> }>(),
   },
 });
 

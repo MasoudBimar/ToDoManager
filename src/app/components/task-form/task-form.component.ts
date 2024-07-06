@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
-import { List, Task } from '../../state/model';
+import { List, TaskEntity } from '../../state/model';
 import { TaskActions } from '../../state/task.actions';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 @Component({
@@ -35,7 +35,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 })
 export class TaskFormComponent implements OnDestroy, OnInit {
 
-  @Output() taskCreated = new EventEmitter<Partial<Task>>();
+  @Output() taskCreated = new EventEmitter<Partial<TaskEntity>>();
 
   taskForm: FormGroup;
   lists: Observable<List[]>;

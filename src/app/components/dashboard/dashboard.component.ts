@@ -2,18 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogContent, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterOutlet, RouterModule } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import { filter, Observable } from 'rxjs';
-import { AddList } from '../../state/list.actions';
-import { List, generateTasks, generateLists, Task } from '../../state/model';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { List, TaskEntity } from '../../state/model';
+import { TaskActions } from '../../state/task.actions';
 import { ListFormComponent } from '../list-form/list-form.component';
 import { TaskFormComponent } from '../task-form/task-form.component';
-import { TasksComponent } from '../tasks/tasks.component';
 import { TaskComponent } from '../task/task.component';
-import { MatDialog, MatDialogContent, MatDialogModule, MatDialogTitle } from '@angular/material/dialog';
-import { TaskActions } from '../../state/task.actions';
+import { TasksComponent } from '../tasks/tasks.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,9 +36,9 @@ import { TaskActions } from '../../state/task.actions';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-  completeTasks!: Observable<Array<Task>>;
+  completeTasks!: Observable<Array<TaskEntity>>;
 
-  incompleteTasks!: Observable<Array<Task>>;
+  incompleteTasks!: Observable<Array<TaskEntity>>;
 
   lists!: Observable<Array<List>>;
 
@@ -58,43 +57,16 @@ export class DashboardComponent {
 
   }
 
-  addTask(task: Partial<Task>) {
-    if (task.title && task.description) {
-      this.store.dispatch( TaskActions.addTask({
-        _id: Math.random(),
-        done: false,
-        title: task.title,
-        description: task.description,
-        list: 1,
-        date: new Date()
-      })
-      );
-    }
-  }
-
-  addList(list: Partial<List>) {
-    // if (list.title) {
-    //   this.store.dispatch(
-    //     new AddList({
-    //       id: Math.random(),
-    //       title: list.title,
-    //       date: new Date(),
-    //       isMain: false
-    //     })
-    //   );
-    // }
-  }
-
-  onCompleteTask(task: Task) {
+  onCompleteTask(task: TaskEntity) {
     // this.store.dispatch(new CompleteTask(task));
   }
 
-  onIncompleteTask(task: Task) {
+  onIncompleteTask(task: TaskEntity) {
     // this.store.dispatch(new IncompleteTask(task));
   }
 
   getTaskList(listId: number) {
-    // return  this.incompleteTasks.pipe(filter((tasks: Task[]) => {
+    // return  this.incompleteTasks.pipe(filter((tasks: TaskEntity[]) => {
     //   return tasks.filter(task => task.list === listId);
     // }));
     // this.store.pipe(select(taskList(listId)));

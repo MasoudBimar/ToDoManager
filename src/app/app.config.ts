@@ -11,6 +11,7 @@ import { taskReducer } from './state/task.reducer';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideEffects } from '@ngrx/effects';
 import { TasksEffects } from './state/task.effect';
+import { ListsEffects } from './state/list.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +22,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideNativeDateAdapter(),
     provideStoreDevtools({ maxAge: 25, logOnly: isDevMode() }),
-    provideEffects(TasksEffects)
+    provideEffects(TasksEffects, ListsEffects)
 ]
 };

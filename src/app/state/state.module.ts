@@ -7,12 +7,13 @@ import { listReducer } from './list.reducer';
 import { taskReducer } from './task.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { TasksEffects } from './task.effect';
+import { ListsEffects } from './list.effect';
 
 @NgModule({
   imports: [
     CommonModule,
     StoreModule.forRoot({ taskState: taskReducer, listState: listReducer }),
-    EffectsModule.forRoot(TasksEffects),
+    EffectsModule.forRoot(TasksEffects, ListsEffects),
     StoreDevtoolsModule.instrument()
   ],
   declarations: []

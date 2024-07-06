@@ -1,33 +1,32 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { ListEntity, TaskEntity } from './model';
 
-import { List, Task } from './model';
+import { createEntityAdapter, EntityAdapter } from "@ngrx/entity";
 
-export const selectTaskState = createFeatureSelector<Task[]>('tasks');
-export const selectListState = createFeatureSelector<Readonly<List>>('lists');
+export const listAdapter: EntityAdapter<ListEntity> = createEntityAdapter<ListEntity>();
+export const taskAdapter: EntityAdapter<TaskEntity> = createEntityAdapter<TaskEntity>();
 
-// export const {
-//   selectIds: TaskIds,
-//   selectEntities: taskEntities,
-//   selectAll: allTasks,
-//   selectTotal: totalTasks
-// } = taskAdapter.getSelectors(selectTaskState);
+export const selectTaskState = createFeatureSelector<Readonly<TaskEntity[]>>('tasks');
+export const selectListState = createFeatureSelector<Readonly<ListEntity>>('lists');
 
-// export const {
-//   selectIds: ListIds,
-//   selectEntities: listEntities,
-//   selectAll: allLists,
-//   selectTotal: totalLists
-// } = listAdapter.getSelectors(selectListState);
-// export const selectTaskList = createSelector(
-//   selectTaskState,
-//   selectListState,
-//   (tasks, list) => {
-//     return list.map((id) => books.find((book) => book.id === id)!);
-//   }
-// );
+export const {
+  selectIds: TaskIds,
+  selectEntities: taskEntities,
+  selectAll: allTasks,
+  selectTotal: totalTasks
+} = taskAdapter.getSelectors();
 
-export const completeTasks = createSelector(selectTaskState, (tasks: Array<Task>) => tasks.filter(task => task.done));
-export const incompleteTasks = createSelector(selectTaskState, (tasks: Array<Task>) => tasks.filter(task => !task.done));
-export const allTasks = createSelector(selectTaskState, (tasks: Array<Task>) => tasks);
-// export const fullList = createSelector(allLists);
-// export const taskList = (listId: number) => createSelector(allTasks, (tasks: Array<Task>) => tasks.filter(task => task.list === listId));
+export const {
+  selectIds: ListIds,
+  selectEntities: listEntities,
+  selectAll: allLists,
+  selectTotal: totalLists
+} = listAdapter.getSelectors();
+
+export interface AppState {
+  allLists: ListEntity[];
+  allTasks: TaskEntity[];
+}
+
+export const selectAllLists = (state: AppState) => state.allLists;
+export const selectAllTasks = (state: AppState) => state.allTasks;

@@ -1,4 +1,4 @@
-export interface Task {
+export interface TaskEntity {
   _id?: number;
   title: string;
   description: string;
@@ -6,15 +6,15 @@ export interface Task {
   date: Date;
   list: number;
 }
-export interface List {
-  id: number;
+export interface ListEntity {
+  id?: number;
   title: string;
   date: Date;
   isMain: boolean;
 }
 
 
-export function generateTasks(): Task[] {
+export function generateTasks(): TaskEntity[] {
   return [
     {
       _id: 1,
@@ -35,7 +35,7 @@ export function generateTasks(): Task[] {
   ];
 }
 
-export function generateLists(): List[] {
+export function generateLists(): ListEntity[] {
   return [{
     id: 1,
     title: 'main',

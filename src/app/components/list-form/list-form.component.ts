@@ -8,9 +8,9 @@ import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { List } from '../../state/model';
 import { Store } from '@ngrx/store';
-import { AddList } from '../../state/list.actions';
+import { List } from '../../state/model';
+import { ListActions } from '../../state/list.actions';
 
 @Component({
   selector: 'app-list-form',
@@ -53,20 +53,13 @@ export class ListFormComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    // this.list = new FormControl();
-    // this.list.valueChanges
-    //   .pipe(debounceTime(200), takeUntil(this.unsubscribe))
-    //   .subscribe(value => {
-    //     this.listChange.emit({ title: value });
-    //   });
   }
 
   createList() {
     if (this.listForm.valid) {
       if (this.listForm.value.title) {
         this.store.dispatch(
-          new AddList({
-            id: Math.random(),
+          ListActions.addList({
             title: this.listForm.value.title,
             date: new Date(),
             isMain: false

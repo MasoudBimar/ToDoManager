@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, forwardRef, inject, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {
@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { select, Store } from '@ngrx/store';
+import { initList, ListActions, ListAPIActions } from '../../state/list.actions';
 import { List } from '../../state/model';
 import { ListFormComponent } from '../list-form/list-form.component';
 import { TaskComponent } from '../task/task.component';
@@ -32,17 +33,17 @@ import { WrapperTableComponent } from '../wrapper-table/wrapper-table.component'
   templateUrl: './lists.component.html',
   styleUrls: ['./lists.component.scss']
 })
-export class ListsComponent {
+export class ListsComponent implements AfterViewInit, OnInit {
   readonly dialog = inject(MatDialog);
-  displayedColumns: string[] = ['title', 'description', 'date'];
+  displayedColumns: string[] = ['title', 'date'];
   dataSource: MatTableDataSource<List> = new MatTableDataSource<List>([]);
 
   @ViewChild('sort') sort!: MatSort;
   constructor(private store: Store) {
-    // this.store.pipe(select(allLists)).subscribe((result: List[]) => {
-    //   console.log("🚀 ~ ListsComponent ~ this.store.pipe ~ result:", result)
-    //   this.dataSource.data = result;
-    // });
+
+  }
+  ngOnInit(): void {
+    this.store.dispatch({ type: '[Lists API] Load List' });
   }
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -52,11 +53,12 @@ export class ListsComponent {
     this.dataSource.data = [];
   }
 
-  addData() {
-    // this.dataSource.data = ELEMENT_DATA;
-  }
-
-  openDialog(){
-    this.dialog.open(ListFormComponent);
+  openDialog() {
+    const dialogRef = this.dialog.open(ListFormComponent);
+    dialogRef.afterClosed().subscribe(response => {
+      if (response) {
+        this.store.dispatch(initList());
+      }
+    });
   }
 }

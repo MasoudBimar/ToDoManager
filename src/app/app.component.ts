@@ -4,15 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { routes } from './app.routes';
 import { ListFormComponent } from './components/list-form/list-form.component';
 import { TaskFormComponent } from './components/task-form/task-form.component';
-import { TasksComponent } from './components/tasks/tasks.component';
 import { TaskComponent } from './components/task/task.component';
-import { AddList } from './state/list.actions';
-import { generateLists, generateTasks, List, Task } from './state/model';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { List, TaskEntity } from './state/model';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -33,9 +31,9 @@ import { generateLists, generateTasks, List, Task } from './state/model';
 })
 export class AppComponent {
   title = 'Task Manager';
-  completeTasks!: Observable<Array<Task>>;
+  completeTasks!: Observable<Array<TaskEntity>>;
 
-  incompleteTasks!: Observable<Array<Task>>;
+  incompleteTasks!: Observable<Array<TaskEntity>>;
 
   lists!: Observable<Array<List>>;
 
@@ -54,39 +52,11 @@ export class AppComponent {
 
   }
 
-  addTask(task: Partial<Task>) {
-    // if (task.title && task.description) {
-    //   this.store.dispatch(
-    //     new AddTask({
-    //       id: Math.random(),
-    //       done: false,
-    //       title: task.title,
-    //       description: task.description,
-    //       list: 1,
-    //       date: new Date()
-    //     })
-    //   );
-    // }
-  }
-
-  addList(list: Partial<List>) {
-    // if (list.title) {
-    //   this.store.dispatch(
-    //     new AddList({
-    //       id: Math.random(),
-    //       title: list.title,
-    //       date: new Date(),
-    //       isMain: false
-    //     })
-    //   );
-    // }
-  }
-
-  onCompleteTask(task: Task) {
+  onCompleteTask(task: TaskEntity) {
     // this.store.dispatch(new CompleteTask(task));
   }
 
-  onIncompleteTask(task: Task) {
+  onIncompleteTask(task: TaskEntity) {
     // this.store.dispatch(new IncompleteTask(task));
   }
 
